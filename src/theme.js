@@ -92,8 +92,8 @@ function clamp(x, min, max) {
 function wobble(x1, y1, x2, y2) {
   assert(_.every([x1,x2,y1,y2], _.isFinite), 'x1,x2,y1,y2 must be numeric');
 
-  // Wobble no more than 1/25 of the line length
-  var factor = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) / 25;
+  // Wobble no more than half of the fourth root of the line length
+  var factor = Math.pow((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1),1/8) / 2;
 
   // Distance along line where the control points are
   // Clamp between 20% and 80% so any arrow heads aren't angled too much
@@ -405,9 +405,8 @@ _.extend(BaseTheme.prototype, {
     var x = (bX - aX) / 2 + aX;
     var y = offsetY + SIGNAL_MARGIN + 2 * SIGNAL_PADDING;
 
-    // Draw the text in the middle of the signal
-    this.drawText(x, y, signal.message, this.font_, ALIGN_CENTER);
-
+    // Draw the text in the middle of the signal with a white box underneath
+    this.drawText(x, y, signal.message, this.font_, ALIGN_CENTER,true);
     // Draw the line along the bottom of the signal
     y = offsetY + signal.height - SIGNAL_MARGIN - SIGNAL_PADDING;
     this.drawLine(aX, y, bX, y, signal.linetype, signal.arrowtype);
