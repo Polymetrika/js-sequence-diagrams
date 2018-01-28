@@ -200,11 +200,17 @@ if (typeof Snap != 'undefined') {
      * text (string) text to print
      * font (Object)
      * align (string) ALIGN_LEFT or ALIGN_CENTER
+     *background (bool) place white background behind text
      */
-    drawText: function(x, y, text, font, align) {
+    drawText: function(x, y, text, font, align,background) {
       var t = this.createText(text, font);
       var bb = t.getBBox();
-
+      bb = t.getBBox();
+      if (background){
+			  var rect = this.paper_.rect();
+				rect.attr({x:x - bb.width / 2,y:y+bb.y/2-2,width:bb.width,height:bb.height,fill:"#ffffff","fill-opacity":"0.99"})
+				this.pushToStack(rect);
+			}
       if (align == ALIGN_CENTER) {
         x = x - bb.width / 2;
         y = y - bb.height / 2;
